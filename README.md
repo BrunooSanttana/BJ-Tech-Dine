@@ -1,11 +1,15 @@
-TODO LIST - base conectplug
+TODO LIST 
 
-tela inicial com logo
-input para usuário e senha e opção de cadastre-se 
+tela home com logo - check
+pagina de cadastro - check
+cadastro funcionando - check
+pagina de para login - check
+login funcionando - check
+salvamento dos dados no banco - check
+Página Inicial contendo a rota para as demais páginas - check
 
 
 Menu com os seguintes tópicos
-
 - vendas do dia
 total de vendas
 total do dia
@@ -44,9 +48,3 @@ email
 
 **filtro por nome ou cpf 
 
-
-- loguin / logout
-
-
-preciso também de um banco de dados para salvar todas essa informações
-pode ser postbird
