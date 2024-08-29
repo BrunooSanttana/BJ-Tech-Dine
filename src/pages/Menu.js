@@ -19,6 +19,9 @@ const Menu = () => {
           <li>
             <Link to="/clients">Clientes</Link>
           </li>
+          <li>
+            <Link to="/products">Cadastrar Produtos</Link>
+          </li>
         </ul>
       </nav>
     </div>

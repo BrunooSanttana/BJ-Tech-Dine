@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -29,7 +33,10 @@ const Register = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Usuário cadastrado:', data);
-        // Aqui você pode redirecionar ou exibir uma mensagem de sucesso
+        setSuccessMessage('Cadastro efetuado com sucesso!');
+        setTimeout(() => {
+          navigate('/'); // Redireciona para a página inicial
+        }, 2000); // Tempo de espera para a mensagem de sucesso
       } else {
         console.error('Erro ao cadastrar o usuário');
       }
@@ -40,7 +47,7 @@ const Register = () => {
 
   return (
     <div>
-      <h2>Cadastro</h2>
+      <h2 className="centered-title">Cadastro</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Nome:
@@ -71,6 +78,7 @@ const Register = () => {
         <br />
         <button type="submit">Cadastrar</button>
       </form>
+      {successMessage && <p className="success-message">{successMessage}</p>}
     </div>
   );
 };
