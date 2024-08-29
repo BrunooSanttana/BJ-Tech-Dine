@@ -23,6 +23,10 @@ login funcionando - check
 salvamento dos dados no banco - check
 Página Inicial contendo a rota para as demais páginas - check
 
+página de cadastrar produto/categoria - check
+cadastro de categoria - check
+cadastro de produto - check
+
 
 Menu com os seguintes tópicos
 - vendas do dia
