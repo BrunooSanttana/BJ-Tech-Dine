@@ -4,7 +4,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
 }
 
 /* Container Principal */
@@ -18,33 +18,19 @@ body {
   pointer-events: none;
 }
 
-/* Animação do Logo */
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+/* TITULO CADASTRO */
+.centered-title {
+  text-align: center; /* Centraliza o texto horizontalmente */
+  margin-top: 20px;   /* Espaço acima do título */
+  margin-bottom: 20px; /* Espaço abaixo do título */
+  font-size: 2rem;    /* Tamanho da fonte do título */
+  color: #000000;        /* Cor do texto (opcional) */
 }
 
-/* Cabeçalho */
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-/* Links */
-.App-link {
-  color: #61dafb;
-}
-
-/* Formulários */
+/* FORMULARIO LOGIN */
 form {
-  background: white;
+  background: rgb(255, 245, 245);
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -78,13 +64,10 @@ form button {
   margin-top: 10px;
 }
 
-form button:hover {
-  background-color: #45a049;
-}
 
-/* Links de Navegação */
+/* LINKS */
 a {
-  color: #61dafb;
+  color: #000000;
   text-decoration: none;
 }
 
@@ -92,7 +75,28 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Media Queries para Responsividade */
+
+
+/* FORMULARIO CADASTRO */
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+/* MENSAGEM DE SUCESSO */
+.success-message {
+  color: green;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* MEDIA QUERIES PARA RESPONSIVIDADE */
 @media (max-width: 768px) {
   .App-header {
     font-size: calc(8px + 2vmin);

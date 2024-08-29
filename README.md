@@ -1,3 +1,18 @@
+EXECUÇÃO: 
+
+FRONT: yarn install
+npm start
+
+Back:
+cd backend
+node index.js
+
+BANCO DE DADOS / API:
+pgAdmin
+postman
+
+
+---------------------- // ----------------------
 TODO LIST 
 
 tela home com logo - check

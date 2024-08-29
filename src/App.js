@@ -8,6 +8,7 @@ import CloseTable from './pages/CloseTable'; // página de Fechamento de Mesa
 import Clients from './pages/Clients'; //  página de Clientes
 import Home from './pages/Home'; //  Home.js
 import Menu from './pages/Menu';
+import Products from './pages/Products';
 
 
 
@@ -23,6 +24,8 @@ function App() {
             <Route path="/close-table" element={<CloseTable />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/menu" element={<Menu />} />
+            <Route path="/products" element={<Products />} />
+
           </Routes>
         </main>
     </Router>

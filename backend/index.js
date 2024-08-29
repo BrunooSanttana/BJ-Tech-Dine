@@ -1,14 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const { User } = require('./models');
 const helmet = require('helmet');
-
-
+const { User, Product } = require('./models'); // Certifique-se de que Product está importado
+const categoryRoutes = require('./routes/categories'); 
+const productRoutes = require('./routes/product');
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
+app.use(cors()); // Use o CORS globalmente
+app.use(express.json());
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -19,8 +19,6 @@ app.use(helmet({
     }
   }
 }));
-
-
 
 // Rota de login
 app.post('/login', async (req, res) => {
@@ -46,10 +44,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log('Servidor rodando na porta 5000');
-});
-
 // Rota de registro
 app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
@@ -73,4 +67,40 @@ app.post('/register', async (req, res) => {
     console.error('Erro ao criar um usuário:', error);
     return res.status(500).json({ error: 'Erro ao criar um usuário' });
   }
+});
+
+app.post('/products', async (req, res) => {
+  const { name, price, categoryId } = req.body;
+  console.log('Dados recebidos:', req.body); // Adicione isso
+
+
+  if (!name || !price || !categoryId) {
+    return res.status(400).json({ error: 'Nome, preço e categoria são obrigatórios' });
+  }
+
+  // Verifique se o categoryId é um número
+  if (isNaN(categoryId)) {
+    return res.status(400).json({ error: 'Categoria inválida' });
+  }
+
+  try {
+    const product = await Product.create({
+      name,
+      price: parseFloat(price),
+      categoryId: parseInt(categoryId, 10),
+    });
+
+    return res.status(201).json(product);
+  } catch (error) {
+    console.error('Erro ao criar produto:', error);
+    return res.status(500).json({ error: 'Erro ao criar produto' });
+  }
+});
+
+// Adicione as novas rotas aqui
+app.use('/categories', categoryRoutes);
+app.use('/products', productRoutes);   
+
+app.listen(5000, () => {
+  console.log('Servidor rodando na porta 5000');
 });

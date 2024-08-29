@@ -15,5 +15,11 @@ db.sequelize = sequelize;
 
 // Importar modelos e adicionar ao objeto db
 db.User = require('./users')(sequelize, Sequelize.DataTypes);
+db.Category = require('./category')(sequelize, Sequelize.DataTypes);
+db.Product = require('./product')(sequelize, Sequelize.DataTypes);
+
+// Relacionamentos
+db.Category.hasMany(db.Product, { foreignKey: 'categoryId' });
+db.Product.belongsTo(db.Category, { foreignKey: 'categoryId' });
 
 module.exports = db;
