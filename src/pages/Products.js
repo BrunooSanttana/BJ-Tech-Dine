@@ -104,8 +104,7 @@ const Products = () => {
 
     return (
         <div>
-            <h2>Cadastrar Produto</h2>
-
+            <h2 className="centered-title">Cadastrar Produto</h2>
             {/* Formulário para cadastrar categorias */}
             <form onSubmit={handleCategorySubmit}>
                 <label>
