@@ -96,6 +96,13 @@ a:hover {
   margin-top: 20px;
 }
 
+/* TITULO CENTRALIZADO */
+.centered-title {
+  text-align: center; /* Centraliza o texto */
+  margin-bottom: 20px; /* Espaço abaixo do título */
+}
+
+
 /* MEDIA QUERIES PARA RESPONSIVIDADE */
 @media (max-width: 768px) {
   .App-header {
