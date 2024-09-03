@@ -17,6 +17,7 @@ db.sequelize = sequelize;
 db.User = require('./users')(sequelize, Sequelize.DataTypes);
 db.Category = require('./category')(sequelize, Sequelize.DataTypes);
 db.Product = require('./product')(sequelize, Sequelize.DataTypes);
+db.Client = require('./client')(sequelize, Sequelize.DataTypes);
 
 // Relacionamentos
 db.Category.hasMany(db.Product, { foreignKey: 'categoryId' });

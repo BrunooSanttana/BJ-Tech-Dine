@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const Clients = () => {
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
   const [phone, setPhone] = useState('');
   const [clients, setClients] = useState([]);
-  const [filter, setFilter] = useState('');
+  const [successMessage, setSuccessMessage] = useState(''); // Estado para a mensagem de sucesso
 
   const handleClientSubmit = async (event) => {
     event.preventDefault();
@@ -24,22 +24,21 @@ const Clients = () => {
         setName('');
         setCpf('');
         setPhone('');
-        alert('Cliente cadastrado com sucesso!');
+        setSuccessMessage('Cliente cadastrado com sucesso!'); // Mensagem de sucesso
+        
+         // Limpa a mensagem após 3 segundos
+         setTimeout(() => {
+          setSuccessMessage('');
+        }, 3000);
       } else {
         console.error('Erro ao cadastrar cliente');
+        setSuccessMessage(''); // Limpar a mensagem se houver erro
       }
     } catch (error) {
       console.error('Erro ao conectar ao servidor', error);
+      setSuccessMessage(''); // Limpar a mensagem se houver erro
     }
   };
-
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
-  };
-
-  const filteredClients = clients.filter(client =>
-    client.name.toLowerCase().includes(filter.toLowerCase())
-  );
 
   return (
     <div>
@@ -77,6 +76,7 @@ const Clients = () => {
         <br />
         <button type="submit">Cadastrar Cliente</button>
       </form>
+      {successMessage && <div className="success-message">{successMessage}</div>} {/* Exibir a mensagem de sucesso */}
     </div>
   );
 };

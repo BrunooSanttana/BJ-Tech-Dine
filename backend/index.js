@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const { User, Product } = require('./models'); // Certifique-se de que Product está importado
 const categoryRoutes = require('./routes/categories'); 
 const productRoutes = require('./routes/product');
+const clientsRoutes = require ('./routes/clients');
 
 const app = express();
 
@@ -99,7 +100,8 @@ app.post('/products', async (req, res) => {
 
 // Adicione as novas rotas aqui
 app.use('/categories', categoryRoutes);
-app.use('/products', productRoutes);   
+app.use('/products', productRoutes);
+app.use('/clients', clientsRoutes);   
 
 app.listen(5000, () => {
   console.log('Servidor rodando na porta 5000');
