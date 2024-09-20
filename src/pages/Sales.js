@@ -73,22 +73,22 @@ const Sales = () => {
       alert('Por favor, informe o número ou nome do cliente.');
       return; // Para evitar a adição se o campo estiver vazio
     }
-  
+
     if (selectedCategory && selectedProduct && quantity > 0) {
       const itemTotal = selectedProductPrice * quantity;
       const existingOrderIndex = orders.findIndex(order => order.tableNumber === tableNumber);
-  
+
       if (existingOrderIndex !== -1) {
         const existingOrder = orders[existingOrderIndex];
         const existingItemIndex = existingOrder.items.findIndex(item => item.product === selectedProduct);
-  
+
         if (existingItemIndex !== -1) {
           // Atualizar o item existente
           const updatedOrders = [...orders];
           const itemToUpdate = updatedOrders[existingOrderIndex].items[existingItemIndex];
           itemToUpdate.quantity += quantity;
           itemToUpdate.total = itemToUpdate.price * itemToUpdate.quantity;
-  
+
           updatedOrders[existingOrderIndex] = {
             ...existingOrder,
             items: [
@@ -98,7 +98,7 @@ const Sales = () => {
             ]
           };
           setOrders(updatedOrders);
-          saveOrdersToLocalStorage(updatedOrders);
+          saveOrdersToLocalStorage(updatedOrders); // Salvar no Local Storage
         } else {
           // Adicionar um novo item
           const updatedOrders = [...orders];
@@ -111,7 +111,7 @@ const Sales = () => {
             total: itemTotal
           });
           setOrders(updatedOrders);
-          saveOrdersToLocalStorage(updatedOrders);
+          saveOrdersToLocalStorage(updatedOrders); // Salvar no Local Storage
         }
       } else {
         // Adicionar um novo pedido
@@ -130,9 +130,9 @@ const Sales = () => {
         };
         const updatedOrders = [...orders, newOrder];
         setOrders(updatedOrders);
-        saveOrdersToLocalStorage(updatedOrders);
+        saveOrdersToLocalStorage(updatedOrders); // Salvar no Local Storage
       }
-  
+
       setSelectedCategory('');
       setSelectedProduct('');
       setSelectedProductName('');
@@ -140,7 +140,11 @@ const Sales = () => {
       setQuantity(1);
     }
   };
-  
+
+  // Função para preencher automaticamente o número da mesa/comanda ou cliente ao clicar no pedido listado
+  const handleSelectOrder = (orderTableNumber) => {
+    setTableNumber(orderTableNumber);
+  };
 
   const handleRemoveItem = (orderIndex, itemIndex) => {
     const updatedOrders = [...orders];
@@ -164,8 +168,9 @@ const Sales = () => {
     }
   };
 
+
   const calculateOrderTotal = (order) => {
-    return order.items.reduce((total, item) => total + item.total, 0);
+    return order.items.reduce((total, item) => total + item.total, 0).toFixed(2);
   };
 
   const handleSubmitOrder = async () => {
@@ -210,13 +215,14 @@ const Sales = () => {
     }
   };
 
+
   return (
     <div>
       {/* Logo como link para o Menu */}
       <Link to="/Menu">
         <img src={logo} alt="Logo" style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
       </Link>
-      <h2 className="centered-title">Vendas</h2>
+      <h2 className="centered-title">VENDAS</h2>
       <div>
         <label>
           Número da Mesa/Comanda ou Cliente:
@@ -282,22 +288,30 @@ const Sales = () => {
           <div>
             {orders.map((order, orderIndex) => (
               <div key={orderIndex}>
-                <h4>Mesa/Comanda/Cliente: {order.tableNumber}</h4>
+                {/* Clicar no número ou nome do cliente para preencher o campo de entrada */}
+                <h4>
+                  <span
+                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                    onClick={() => handleSelectOrder(order.tableNumber)}
+                  >
+                    Mesa/Comanda/Cliente: {order.tableNumber}
+                  </span>
+                </h4>
                 <ul>
                   {order.items.map((item, itemIndex) => (
                     <li key={itemIndex}>
-                      {item.productName} - {item.quantity} x R$ {item.price.toFixed(2)} = R$ {item.total.toFixed(2)}
+                      {item.productName} - {item.quantity} x R${item.price} = R${item.total}
                       <button onClick={() => handleRemoveItem(orderIndex, itemIndex)}>Remover</button>
                     </li>
                   ))}
                 </ul>
-                <p>Total do Pedido: R$ {calculateOrderTotal(order).toFixed(2)}</p>
+                <p>Total do Pedido: R${calculateOrderTotal(order)}</p>
               </div>
             ))}
           </div>
         )}
-      </div>
 
+      </div>
       <div>
         <label>
           Método de Pagamento:
