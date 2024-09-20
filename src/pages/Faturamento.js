@@ -36,8 +36,6 @@ const Faturamento = () => {
       {/* Logo como link para o Menu */}
       <Link to="/Menu">
         <img src={logo} alt="Logo"  style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
-     
-
       </Link>
 
       <h2>Faturamento</h2>

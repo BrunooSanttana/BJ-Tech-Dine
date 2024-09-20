@@ -12,7 +12,15 @@ const Sales = () => {
   const [selectedProductPrice, setSelectedProductPrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [orders, setOrders] = useState([]);
-  const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Estado para armazenar o método de pagamento
+  const [paymentMethod, setPaymentMethod] = useState(''); // Estado para armazenar o método de pagamento
+
+  // Recuperar pedidos do Local Storage quando a página for carregada
+  useEffect(() => {
+    const savedOrders = localStorage.getItem('salesOrders');
+    if (savedOrders) {
+      setOrders(JSON.parse(savedOrders));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -55,23 +63,32 @@ const Sales = () => {
     }
   }, [selectedProduct, products]);
 
+  // Função para salvar os pedidos no Local Storage
+  const saveOrdersToLocalStorage = (orders) => {
+    localStorage.setItem('salesOrders', JSON.stringify(orders));
+  };
+
   const handleAddItem = () => {
+    if (!tableNumber) {
+      alert('Por favor, informe o número ou nome do cliente.');
+      return; // Para evitar a adição se o campo estiver vazio
+    }
+  
     if (selectedCategory && selectedProduct && quantity > 0) {
       const itemTotal = selectedProductPrice * quantity;
       const existingOrderIndex = orders.findIndex(order => order.tableNumber === tableNumber);
-
+  
       if (existingOrderIndex !== -1) {
         const existingOrder = orders[existingOrderIndex];
         const existingItemIndex = existingOrder.items.findIndex(item => item.product === selectedProduct);
-
+  
         if (existingItemIndex !== -1) {
           // Atualizar o item existente
           const updatedOrders = [...orders];
           const itemToUpdate = updatedOrders[existingOrderIndex].items[existingItemIndex];
           itemToUpdate.quantity += quantity;
           itemToUpdate.total = itemToUpdate.price * itemToUpdate.quantity;
-
-          // Atualizar o estado
+  
           updatedOrders[existingOrderIndex] = {
             ...existingOrder,
             items: [
@@ -81,6 +98,7 @@ const Sales = () => {
             ]
           };
           setOrders(updatedOrders);
+          saveOrdersToLocalStorage(updatedOrders);
         } else {
           // Adicionar um novo item
           const updatedOrders = [...orders];
@@ -93,6 +111,7 @@ const Sales = () => {
             total: itemTotal
           });
           setOrders(updatedOrders);
+          saveOrdersToLocalStorage(updatedOrders);
         }
       } else {
         // Adicionar um novo pedido
@@ -109,9 +128,11 @@ const Sales = () => {
             }
           ]
         };
-        setOrders([...orders, newOrder]);
+        const updatedOrders = [...orders, newOrder];
+        setOrders(updatedOrders);
+        saveOrdersToLocalStorage(updatedOrders);
       }
-
+  
       setSelectedCategory('');
       setSelectedProduct('');
       setSelectedProductName('');
@@ -119,6 +140,7 @@ const Sales = () => {
       setQuantity(1);
     }
   };
+  
 
   const handleRemoveItem = (orderIndex, itemIndex) => {
     const updatedOrders = [...orders];
@@ -138,6 +160,7 @@ const Sales = () => {
         updatedOrders.splice(orderIndex, 1);
       }
       setOrders(updatedOrders);
+      saveOrdersToLocalStorage(updatedOrders); // Atualizar no Local Storage
     }
   };
 
@@ -150,14 +173,14 @@ const Sales = () => {
       alert('Por favor, informe o número da mesa.');
       return;
     }
-  
+
     const currentOrderIndex = orders.findIndex(order => order.tableNumber === tableNumber);
-  
+
     if (currentOrderIndex === -1 || orders[currentOrderIndex].items.length === 0) {
       alert('Por favor, adicione itens ao pedido antes de finalizar.');
       return;
     }
-  
+
     try {
       const response = await fetch('http://localhost:5000/orders', {
         method: 'POST',
@@ -170,11 +193,12 @@ const Sales = () => {
           items: orders[currentOrderIndex].items
         }),
       });
-  
+
       if (response.ok) {
         alert('Pedido realizado com sucesso!');
         const updatedOrders = orders.filter((_, index) => index !== currentOrderIndex);
         setOrders(updatedOrders);
+        saveOrdersToLocalStorage(updatedOrders); // Atualizar o Local Storage
         setTableNumber(''); // Limpa o número da mesa
         setPaymentMethod('dinheiro'); // Reseta o método de pagamento
       } else {
@@ -188,9 +212,9 @@ const Sales = () => {
 
   return (
     <div>
-       {/* Logo como link para o Menu */}
-       <Link to="/Menu">
-        <img src={logo} alt="Logo"  style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
+      {/* Logo como link para o Menu */}
+      <Link to="/Menu">
+        <img src={logo} alt="Logo" style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
       </Link>
       <h2 className="centered-title">Vendas</h2>
       <div>
@@ -242,7 +266,7 @@ const Sales = () => {
           <input
             type="number"
             value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
             min="1"
           />
         </label>
@@ -250,36 +274,41 @@ const Sales = () => {
 
       <button onClick={handleAddItem}>Adicionar Item</button>
 
-      <h3>Pedidos</h3>
-      {orders.length === 0 && <p>Nenhum pedido adicionado.</p>}
-      <ul>
-        {orders.map((order, orderIndex) => (
-          <li key={orderIndex}>
-            Mesa/Cliente: {order.tableNumber}
-            <ul>
-              {order.items.map((item, itemIndex) => (
-                <li key={itemIndex}>
-                  Produto: {item.productName} | Preço: R${item.price.toFixed(2)} | Quantidade: {item.quantity} | Total: R${item.total.toFixed(2)}
-                  <button onClick={() => handleRemoveItem(orderIndex, itemIndex)}>Remover</button>
-                </li>
-              ))}
-            </ul>
-            <strong>Total do Pedido: R${calculateOrderTotal(order).toFixed(2)}</strong>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <h3>Itens do Pedido:</h3>
+        {orders.length === 0 ? (
+          <p>Nenhum item adicionado.</p>
+        ) : (
+          <div>
+            {orders.map((order, orderIndex) => (
+              <div key={orderIndex}>
+                <h4>Mesa/Comanda/Cliente: {order.tableNumber}</h4>
+                <ul>
+                  {order.items.map((item, itemIndex) => (
+                    <li key={itemIndex}>
+                      {item.productName} - {item.quantity} x R$ {item.price.toFixed(2)} = R$ {item.total.toFixed(2)}
+                      <button onClick={() => handleRemoveItem(orderIndex, itemIndex)}>Remover</button>
+                    </li>
+                  ))}
+                </ul>
+                <p>Total do Pedido: R$ {calculateOrderTotal(order).toFixed(2)}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       <div>
         <label>
-          Forma de Pagamento:
-          <select
-            value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          >
+          Método de Pagamento:
+          <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
+            <option value="">Selecione a forma de pagamento</option>
             <option value="dinheiro">Dinheiro</option>
-            <option value="debito">Débito</option>
-            <option value="credito">Crédito</option>
+            <option value="débito">Débito</option>
+            <option value="crédito">Crédito</option>
           </select>
         </label>
+
       </div>
 
       <button onClick={handleSubmitOrder}>Finalizar Pedido</button>

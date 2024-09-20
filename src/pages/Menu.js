@@ -9,7 +9,6 @@ const Menu = () => {
 
       <img src={logo} alt="Logo" style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
 
-      <h2>Página Inicial</h2>
       <nav>
         <ul>
           <li>
