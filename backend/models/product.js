@@ -1,26 +1,40 @@
-// models/product.js
 module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define('Product', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     price: {
-      type: DataTypes.FLOAT,
-      allowNull: false
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
     },
     categoryId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      field: 'categoryId',
       references: {
         model: 'categories',
-        key: 'id'
-      }
-    }
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL',
+    },    
   }, {
-    tableName: 'products', // Define o nome da tabela explicitamente
-    timestamps: true,      // Adiciona as colunas createdAt e updatedAt
+    tableName: 'products', // Nome da tabela no banco de dados
+    timestamps: true,     // Não adicionar createdAt e updatedAt
   });
+
+  // Associação com o modelo Category
+  Product.associate = (models) => {
+    Product.belongsTo(models.Category, {
+      foreignKey: 'categoryId',
+      as: 'category',
+    });
+  };
 
   return Product;
 };

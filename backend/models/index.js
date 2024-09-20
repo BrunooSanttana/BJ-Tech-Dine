@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 const config = require('../config/config.json');
-const env = process.env.NODE_ENV || 'development'; // Ou outro mecanismo para determinar o ambiente
+const env = process.env.NODE_ENV || 'development'; 
 const dbConfig = config[env];
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
@@ -10,6 +10,7 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.p
 
 const db = {};
 
+// Configurar Sequelize
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
@@ -18,9 +19,13 @@ db.User = require('./users')(sequelize, Sequelize.DataTypes);
 db.Category = require('./category')(sequelize, Sequelize.DataTypes);
 db.Product = require('./product')(sequelize, Sequelize.DataTypes);
 db.Client = require('./client')(sequelize, Sequelize.DataTypes);
+db.Order = require('./order')(sequelize, Sequelize.DataTypes);
 
-// Relacionamentos
+
+
+// Definir Relacionamentos
 db.Category.hasMany(db.Product, { foreignKey: 'categoryId' });
 db.Product.belongsTo(db.Category, { foreignKey: 'categoryId' });
+
 
 module.exports = db;

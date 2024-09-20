@@ -27,6 +27,10 @@ página de cadastrar produto/categoria - check
 cadastro de categoria - check
 cadastro de produto - check
 
+pagina de clientes - check
+cadastro de cliente no banco - check
+
+
 
 Menu com os seguintes tópicos
 - vendas do dia

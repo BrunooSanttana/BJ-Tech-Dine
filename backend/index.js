@@ -1,10 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const { User, Product } = require('./models'); // Certifique-se de que Product está importado
+const { User, Product, Order } = require('./models'); // Certifique-se de que Product está importado
 const categoryRoutes = require('./routes/categories'); 
 const productRoutes = require('./routes/product');
 const clientsRoutes = require ('./routes/clients');
+const totalSalesRoutes = require('./routes/totalSales'); 
+const orderRoutes = require('./routes/orders');
+const { Op } = require('sequelize'); // Importando Op
+
 
 const app = express();
 
@@ -98,10 +102,38 @@ app.post('/products', async (req, res) => {
   }
 });
 
+// Rota para buscar faturamento
+app.get('/faturamento', async (req, res) => {
+  const { startDate, endDate } = req.query;
+
+  try {
+    const orders = await Order.findAll({
+      where: {
+        createdAt: {
+          [Op.between]: [new Date(startDate), new Date(endDate)],
+        },
+      },
+      attributes: ['totalAmount'],
+    });
+    
+    const total = orders.reduce((sum, order) => sum + parseFloat(order.dataValues.totalAmount), 0);
+    res.json({ total, orders });
+    
+  } catch (error) {
+    console.error('Erro ao buscar faturamento:', error);
+    res.status(500).json({ error: 'Erro ao buscar faturamento' });
+  }
+});
+
+
 // Adicione as novas rotas aqui
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
-app.use('/clients', clientsRoutes);   
+app.use('/clients', clientsRoutes);
+app.use('/totalSales', totalSalesRoutes);
+app.use('/orders', orderRoutes);
+
+
 
 app.listen(5000, () => {
   console.log('Servidor rodando na porta 5000');

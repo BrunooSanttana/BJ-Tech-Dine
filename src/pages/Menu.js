@@ -14,13 +14,16 @@ const Menu = () => {
             <Link to="/sales">Vendas</Link>
           </li>
           <li>
-            <Link to="/close-table">Fechar Mesa/Comanda</Link>
+            <Link to="/faturamento">Faturamento</Link>
           </li>
           <li>
             <Link to="/clients">Clientes</Link>
           </li>
           <li>
             <Link to="/products">Cadastrar Produtos</Link>
+          </li>
+          <li>
+            <Link to="/totalSales">Total de Vendas</Link>
           </li>
         </ul>
       </nav>
