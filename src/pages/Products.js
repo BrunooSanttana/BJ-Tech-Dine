@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Importando Link
+import logo from '../images/presleylogo.png';
 
 const Products = () => {
     const [category, setCategory] = useState('');
@@ -104,6 +106,11 @@ const Products = () => {
 
     return (
         <div>
+
+            {/* Logo como link para o Menu */}
+            <Link to="/Menu">
+                <img src={logo} alt="Logo" style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
+            </Link>
             <h2 className="centered-title">Cadastrar Produto</h2>
             {/* Formulário para cadastrar categorias */}
             <form onSubmit={handleCategorySubmit}>
@@ -119,15 +126,6 @@ const Products = () => {
             </form>
 
 
-            {/* Listagem de Categorias
-
-      <ul>
-        {categories.map((cat, index) => (
-          <li key={index}>{cat.name}</li>
-        ))}
-      </ul>     
-
-      */}
 
 
             {/* Formulário para cadastrar produtos */}

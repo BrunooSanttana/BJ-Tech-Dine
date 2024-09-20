@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importando Link
+import logo from '../images/presleylogo.png';
+
 
 const Faturamento = () => {
   const [startDate, setStartDate] = useState(''); // Data de início
@@ -30,6 +33,13 @@ const Faturamento = () => {
 
   return (
     <div>
+      {/* Logo como link para o Menu */}
+      <Link to="/Menu">
+        <img src={logo} alt="Logo"  style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
+     
+
+      </Link>
+
       <h2>Faturamento</h2>
 
       <div>

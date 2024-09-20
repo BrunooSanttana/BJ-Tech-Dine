@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importando Link
+import logo from '../images/presleylogo.png';
+
 
 const Clients = () => {
   const [name, setName] = useState('');
@@ -6,6 +9,7 @@ const Clients = () => {
   const [phone, setPhone] = useState('');
   const [clients, setClients] = useState([]);
   const [successMessage, setSuccessMessage] = useState(''); // Estado para a mensagem de sucesso
+
 
   const handleClientSubmit = async (event) => {
     event.preventDefault();
@@ -42,6 +46,10 @@ const Clients = () => {
 
   return (
     <div>
+       {/* Logo como link para o Menu */}
+       <Link to="/Menu">
+        <img src={logo} alt="Logo"  style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
+      </Link>
       <h2 className="centered-title">Cadastrar Cliente</h2>
       <form onSubmit={handleClientSubmit}>
         <label>

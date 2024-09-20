@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Importando Link
+import logo from '../images/presleylogo.png';
 
 const Sales = () => {
   const [tableNumber, setTableNumber] = useState('');
@@ -186,6 +188,10 @@ const Sales = () => {
 
   return (
     <div>
+       {/* Logo como link para o Menu */}
+       <Link to="/Menu">
+        <img src={logo} alt="Logo"  style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
+      </Link>
       <h2 className="centered-title">Vendas</h2>
       <div>
         <label>
