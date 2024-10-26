@@ -33,6 +33,10 @@ const Menu = () => {
           <li>
             <Link to="/products">Cadastrar Produtos</Link>
           </li>
+          <br></br>
+          <li>
+            <Link to="/comandas">Comandas</Link>
+          </li>
         </ul>
       </nav>
     </div>

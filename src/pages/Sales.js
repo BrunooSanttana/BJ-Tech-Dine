@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Importando Link
 import logo from '../images/presleylogo.png';
+import { useParams, useNavigate } from 'react-router-dom'; // Importar useParams para capturar parâmetros da URL
+
 
 const Sales = () => {
-  const [tableNumber, setTableNumber] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [products, setProducts] = useState([]);
@@ -13,6 +14,12 @@ const Sales = () => {
   const [quantity, setQuantity] = useState(1);
   const [orders, setOrders] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState(''); // Estado para armazenar o método de pagamento
+  const navigate = useNavigate(); // Usar para redirecionamento
+  const { tableNumberParam } = useParams(); // Captura o número da mesa/comanda da URL
+  const [tableNumber, setTableNumber] = useState(tableNumberParam || '');
+
+
+
 
   // Recuperar pedidos do Local Storage quando a página for carregada
   useEffect(() => {
@@ -194,7 +201,7 @@ const Sales = () => {
         },
         body: JSON.stringify({
           tableNumber,
-          paymentMethod, // Usar o método de pagamento selecionado
+          paymentMethod,
           items: orders[currentOrderIndex].items
         }),
       });
@@ -203,9 +210,11 @@ const Sales = () => {
         alert('Pedido realizado com sucesso!');
         const updatedOrders = orders.filter((_, index) => index !== currentOrderIndex);
         setOrders(updatedOrders);
-        saveOrdersToLocalStorage(updatedOrders); // Atualizar o Local Storage
-        setTableNumber(''); // Limpa o número da mesa
-        setPaymentMethod('dinheiro'); // Reseta o método de pagamento
+        localStorage.setItem('salesOrders', JSON.stringify(updatedOrders));
+        setTableNumber('');
+        setPaymentMethod('');
+        // Redireciona de volta para a página de comandas após finalizar o pedido
+        navigate('/comandas');
       } else {
         alert('Erro ao realizar o pedido');
       }
@@ -278,7 +287,8 @@ const Sales = () => {
         </label>
       </div>
 
-      <button onClick={handleAddItem}>Adicionar Item</button>
+      <button onClick={handleAddItem}>Adicionar Item</button>        navigate('/comandas');
+
 
       <div>
         <h3>Itens do Pedido:</h3>
