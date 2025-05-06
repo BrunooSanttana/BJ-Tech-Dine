@@ -45,7 +45,7 @@ valor total da conta - check <br>
 forma de pagamento - check <br>
 
 
-- clientes ( listagem e cadastro ) -
+- clientes ( listagem e cadastro ) - <br>
 cadastro - - check <br>
 
 
