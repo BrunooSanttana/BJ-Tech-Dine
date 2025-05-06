@@ -27,7 +27,7 @@ cadastro de cliente no banco - check <br>
 pagina de faturamento - check <br>
 total de vendas por periodo - check <br>
 
-- Lançar Produto 
+- Lançar Produto - <br>
 Numero da Mesa / comanda / cliente - check <br>
 seleciona o nome do produto - check <br>
 valor do produto - check <br>
@@ -38,14 +38,14 @@ total de itens - check <br>
 valor total da conta - check <br>
 
 
-- Fechar mesa/comanda
+- Fechar mesa/comanda - <br>
 informa nome da mesa/comanda ou cliente - check <br>
 total de itens - check <br>
 valor total da conta - check <br>
 forma de pagamento - check <br>
 
 
-- clientes ( listagem e cadastro )
+- clientes ( listagem e cadastro ) -
 cadastro - - check <br>
 
 
