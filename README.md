@@ -15,7 +15,7 @@ postman
 ---------------------- // ----------------------
 TODO LIST 
 
-tela home com logo - check
+tela home com logo - check <br>
 pagina de cadastro - check
 pagina login - check
 salvamento dos dados no banco - check
