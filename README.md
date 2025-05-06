@@ -12,7 +12,7 @@ pgAdmin
 postman
 
 
----- TODO LIST: ---- <br> 
+---- TODO LIST ---- <br> 
 
 tela home com logo - check <br>
 pagina de cadastro - check <br>
