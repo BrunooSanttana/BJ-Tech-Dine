@@ -1,13 +1,15 @@
 EXECUÇÃO: 
 
-FRONT: yarn install <br>
-npm start
+FRONT: <br> 
+yarn install <br>
+npm start <br>
 
-Back:
-cd backend
-node index.js
+Back: <br>
+cd backend <br>
+node index.js <br>
 
-BANCO DE DADOS / API:
+BANCO DE DADOS / API: <br>
+Postbird
 pgAdmin
 postman
 
