@@ -1,41 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../images/presleylogo.png';
+import './Menu.css'; // Certifique-se de importar o CSS
 
 const Menu = () => {
   return (
-
-    <div>
-
-      <img src={logo} alt="Logo" style={{ cursor: 'pointer', width: '100px', marginBottom: '20px' }} />
-
+    <div className="menu-container">
+      <img src={logo} alt="Logo" className="menu-logo" />
       <nav>
-        <ul>
+        <ul className="menu-list">
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" className="menu-link">Home</Link>
           </li>
-          <br></br>
           <li>
-            <Link to="/sales">Vendas</Link>
+            <Link to="/sales" className="menu-link">Vendas</Link>
           </li>
-          <br></br>
-
           <li>
-            <Link to="/faturamento">Faturamento</Link>
+            <Link to="/faturamento" className="menu-link">Faturamento</Link>
           </li>
-          <br></br>
-
           <li>
-            <Link to="/clients">Clientes</Link>
+            <Link to="/clients" className="menu-link">Clientes</Link>
           </li>
-          <br></br>
-
           <li>
-            <Link to="/products">Cadastrar Produtos</Link>
+            <Link to="/products" className="menu-link">Cadastrar Produtos</Link>
           </li>
-          <br></br>
           <li>
-            <Link to="/comandas">Comandas</Link>
+            <Link to="/comandas" className="menu-link">Comandas</Link>
           </li>
         </ul>
       </nav>
