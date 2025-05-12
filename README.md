@@ -1,55 +1,107 @@
-EXECUÇÃO: 
 
-FRONT: <br> 
-yarn install <br>
-npm start <br>
+# 🧾 BJ-Tech-Dine
 
-Back: <br>
-cd backend <br>
-node index.js <br>
+**BJ-Tech-Dine** é um sistema de gerenciamento para restaurantes, desenvolvido com **React** no frontend, **Node.js** com **Sequelize** no backend, e **PostgreSQL/Postbird** como banco de dados. Ele permite o cadastro de produtos, categorias, clientes, controle de pedidos por mesa/comanda/cliente, e cálculo de faturamento por período.
 
-BANCO DE DADOS / API: <br>
-Postbird
-pgAdmin
-postman
+---
 
+## 🚀 Execução do Projeto
 
----- TODO LIST ---- <br> 
+### 📦 Frontend
 
-tela home com logo - check <br>
-pagina de cadastro - check <br>
-pagina login - check <br>
-salvamento dos dados no banco - check <br>
-Página Inicial contendo a rota para as demais páginas - check <br>
-página de cadastrar produto/categoria - check <br>
-cadastro de categoria - check <br>
-cadastro de produto - check <br>
-pagina de clientes - check <br>
-cadastro de cliente no banco - check <br>
-pagina de faturamento - check <br>
-total de vendas por periodo - check <br>
+```bash
+# Instalar dependências
+yarn install
 
-- Lançar Produto - <br>
-Numero da Mesa / comanda / cliente - check <br>
-seleciona o nome do produto - check <br>
-valor do produto - check <br>
-campo para quantidade - check <br>
-valor final do produto - check <br>
-botão de adicionar e remover produto no pedido - check <br>
-total de itens - check <br>
-valor total da conta - check <br>
+# Iniciar o servidor React
+npm start
+```
 
+### 🛠 Backend
 
-- Fechar mesa/comanda - <br>
-informa nome da mesa/comanda ou cliente - check <br>
-total de itens - check <br>
-valor total da conta - check <br>
-forma de pagamento - check <br>
+```bash
+cd backend
+node index.js
+```
 
+### 🗃 Banco de Dados / API
 
-- clientes ( listagem e cadastro ) - <br>
-cadastro - - check <br>
+Ferramentas recomendadas para visualização e testes:
 
+- Postbird
+- pgAdmin
+- Postman
 
-**filtro por nome ou cpf 
+---
 
+## ✅ Funcionalidades Implementadas
+
+### 🏠 Navegação Principal
+
+- Tela inicial com logo
+- Página de login
+- Página de cadastro
+- Página inicial com acesso às demais rotas
+
+### 🛒 Produtos & Categorias
+
+- Cadastro de categorias
+- Cadastro de produtos
+- Organização por categorias
+
+### 👥 Clientes
+
+- Cadastro de clientes
+- Listagem de clientes
+- Filtro por nome ou CPF
+
+### 🍽️ Lançamento de Produtos
+
+- Seleção de mesa / comanda / cliente
+- Escolha de produtos e quantidade
+- Cálculo automático do valor total
+- Adição e remoção de itens no pedido
+- Total de itens e valor da conta
+
+### 💳 Fechamento de Mesa
+
+- Identificação da mesa/comanda/cliente
+- Exibição dos itens e valores
+- Escolha da forma de pagamento
+
+### 📊 Faturamento
+
+- Total de vendas por período
+
+---
+
+## 🧰 Tecnologias Utilizadas
+
+- React
+- Node.js + Express
+- Sequelize (ORM)
+- PostgreSQL
+- CSS / Tailwind (opcional)
+- Postman (para testes de API)
+
+---
+
+## ✅ Checklist de Implementação
+
+| Funcionalidade                                       | Status |
+|------------------------------------------------------|--------|
+| Tela home com logo                                   | ✅     |
+| Página de cadastro e login                           | ✅     |
+| Página inicial com rotas                             | ✅     |
+| Cadastro de produto/categoria                        | ✅     |
+| Cadastro de cliente                                  | ✅     |
+| Página de faturamento com total de vendas por período| ✅     |
+| Lançamento de produto na comanda                     | ✅     |
+| Fechamento de mesa/comanda                           | ✅     |
+| Filtro de cliente por nome ou CPF                    | ✅     |
+
+---
+
+## 📬 Contato
+
+Caso tenha dúvidas, sugestões ou queira contribuir, sinta-se à vontade para abrir uma issue ou pull request aqui no repositório. ✌️
