@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../images/presleylogo.png';
+import './Comandas.css'; // Importa o CSS
 
 const Comandas = () => {
   const [orders, setOrders] = useState([]);
@@ -14,26 +16,29 @@ const Comandas = () => {
   }, []);
 
   const handleOrderClick = (tableNumber) => {
-    console.log(`Navegando para /sales/${tableNumber}`); // Verifique se a navegação está correta
     navigate(`/sales/${tableNumber}`);
   };
 
   return (
-    <div>
-      <h2>Comandas em Aberto</h2>
+    <div className="container"> {/* Adiciona a classe container */}
+      <div>
+        <Link to="/Menu">
+          <img src={logo} alt="Logo" className="logo" /> {/* Adiciona a classe logo */}
+        </Link>
+        <h2>Comandas em Aberto</h2>
+      </div>
       {orders.length === 0 ? (
         <p>Nenhuma comanda em aberto.</p>
       ) : (
-        <ul>
+        <ul className="orders-list"> {/* Adiciona a classe orders-list */}
           {orders.map((order, index) => (
-            <li key={index} onClick={() => handleOrderClick(order.tableNumber)} style={{ cursor: 'pointer', color: 'blue' }}>
-             {order.tableNumber}
+            <li key={index} onClick={() => handleOrderClick(order.tableNumber)}>
+              {order.tableNumber}
             </li>
           ))}
         </ul>
       )}
-
-      <Link to="/sales">Iniciar Nova Venda</Link>
+      <Link to="/sales" className="start-sale">Iniciar Nova Venda</Link> {/* Adiciona a classe start-sale */}
     </div>
   );
 };
