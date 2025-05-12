@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Importando Link
+import { Link } from 'react-router-dom';
 import logo from '../images/presleylogo.png';
-import { useParams, useNavigate } from 'react-router-dom'; // Importar useParams para capturar parâmetros da URL
+import { useParams, useNavigate } from 'react-router-dom';
+import printJS from 'print-js';
+import './Sales.css';
+
+
 
 
 const Sales = () => {
@@ -13,10 +17,11 @@ const Sales = () => {
   const [selectedProductPrice, setSelectedProductPrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [orders, setOrders] = useState([]);
-  const [paymentMethod, setPaymentMethod] = useState(''); // Estado para armazenar o método de pagamento
-  const navigate = useNavigate(); // Usar para redirecionamento
-  const { tableNumberParam } = useParams(); // Captura o número da mesa/comanda da URL
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const navigate = useNavigate();
+  const { tableNumberParam } = useParams();
   const [tableNumber, setTableNumber] = useState(tableNumberParam || '');
+  const [note, setNote] = useState('');
 
 
 
@@ -115,7 +120,8 @@ const Sales = () => {
             productName: selectedProductName,
             price: selectedProductPrice,
             quantity: quantity,
-            total: itemTotal
+            total: itemTotal,
+            note: note
           });
           setOrders(updatedOrders);
           saveOrdersToLocalStorage(updatedOrders); // Salvar no Local Storage
@@ -139,12 +145,30 @@ const Sales = () => {
         setOrders(updatedOrders);
         saveOrdersToLocalStorage(updatedOrders); // Salvar no Local Storage
       }
-
+      // Imprimir itens se a categoria for "porção" ou "lanche"
+      if (selectedCategory === 'porção' || selectedCategory === 'lanche') {
+        const newItem = {
+          productName: selectedProductName,
+          quantity: quantity,
+          price: selectedProductPrice,
+          total: itemTotal,
+          note: note
+        };
+        printJS({
+          printable: [newItem],
+          properties: ['productName', 'quantity', 'price', 'total', 'note'],
+          type: 'json',
+          header: 'Pedido da Cozinha'
+        });
+      }
+      // Limpar campos após adicionar item
       setSelectedCategory('');
       setSelectedProduct('');
       setSelectedProductName('');
       setSelectedProductPrice(0);
       setQuantity(1);
+      setNote('');
+      navigate('/comandas');
     }
   };
 
@@ -213,6 +237,22 @@ const Sales = () => {
         localStorage.setItem('salesOrders', JSON.stringify(updatedOrders));
         setTableNumber('');
         setPaymentMethod('');
+        // Criar o resumo da conta
+        const summary = orders[currentOrderIndex].items.map(item => ({
+          productName: item.productName,
+          quantity: item.quantity,
+          total: item.total,
+          note: item.note
+        }));
+
+        // Imprimir o resumo da conta na impressora do bar
+        printJS({
+          printable: summary,
+          properties: ['productName', 'quantity', 'total', 'note'],
+          type: 'json',
+          header: 'Resumo da Conta'
+        });
+
         // Redireciona de volta para a página de comandas após finalizar o pedido
         navigate('/comandas');
       } else {
@@ -234,7 +274,7 @@ const Sales = () => {
       <h2 className="centered-title">VENDAS</h2>
       <div>
         <label>
-          Número da Mesa/Comanda ou Cliente:
+          Mesa / Cliente:
           <input
             type="text"
             value={tableNumber}
@@ -274,6 +314,17 @@ const Sales = () => {
           </select>
         </label>
       </div>
+      <div>
+        <label>
+          Observação:
+          <input
+            type="text"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Adicione uma observação (opcional)"
+          />
+        </label>
+      </div>
 
       <div>
         <label>
@@ -287,35 +338,39 @@ const Sales = () => {
         </label>
       </div>
 
-      <button onClick={handleAddItem}>Adicionar Item</button>        navigate('/comandas');
+      <button onClick={handleAddItem}>Adicionar Item</button>
 
 
       <div>
-        <h3>Itens do Pedido:</h3>
+        <h3 className="summary-title">Resumo do Pedido:</h3>
         {orders.length === 0 ? (
           <p>Nenhum item adicionado.</p>
         ) : (
-          <div>
+          <div className="order-summary">
             {orders.map((order, orderIndex) => (
-              <div key={orderIndex}>
-                {/* Clicar no número ou nome do cliente para preencher o campo de entrada */}
-                <h4>
+              <div key={orderIndex} className="order-details">
+                <h4 className="order-header">
                   <span
-                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                    className="clickable"
                     onClick={() => handleSelectOrder(order.tableNumber)}
                   >
-                    Mesa/Comanda/Cliente: {order.tableNumber}
+                    Mesa / Cliente: {order.tableNumber}
                   </span>
                 </h4>
-                <ul>
+                <ul className="order-items">
                   {order.items.map((item, itemIndex) => (
-                    <li key={itemIndex}>
+                    <li key={itemIndex} className="order-item">
                       {item.productName} - {item.quantity} x R${item.price} = R${item.total}
-                      <button onClick={() => handleRemoveItem(orderIndex, itemIndex)}>Remover</button>
+                      {item.note && (
+                        <p className="item-note">Observação: {item.note}</p>
+                      )}
+                      <button className="remove-button" onClick={() => handleRemoveItem(orderIndex, itemIndex)}>
+                        Remover
+                      </button>
                     </li>
                   ))}
                 </ul>
-                <p>Total do Pedido: R${calculateOrderTotal(order)}</p>
+                <p className="order-total">Total do Pedido: R${calculateOrderTotal(order)}</p>
               </div>
             ))}
           </div>
