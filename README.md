@@ -1,6 +1,6 @@
 EXECUÇÃO: 
 
-FRONT: yarn install
+FRONT: yarn install <br>
 npm start
 
 Back:
